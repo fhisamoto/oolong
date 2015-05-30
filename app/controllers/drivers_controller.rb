@@ -45,7 +45,7 @@ class DriversController < ApplicationController
   end
 
   def in_area
-    @drivers = Driver.in_bounds(@bounds)
+    @drivers = Driver.are_available.in_bounds(@bounds)
     render json: @drivers
   end
 
@@ -55,16 +55,24 @@ class DriversController < ApplicationController
     @driver = Driver.find(params[:id])
   end
 
-  def set_bounds
-    sw = params[:sw].split(',').map { |s| BigDecimal.new(s) }
-    ne = params[:ne].split(',').map { |s| BigDecimal.new(s) }
-    @bounds = [ Geokit::LatLng.new(*sw), Geokit::LatLng.new(*ne) ]
-  end
-
   def driver_params
     if params[:driver]
       params[:driver].merge!(:driver_available => params[:driver][:driverAvailable])
     end
     params[:driver]
+  end
+
+  def set_bounds
+    begin
+      @bounds = [ parse_lat_lng(params[:sw]), parse_lat_lng(params[:ne]) ]
+    rescue
+      head :unprocessable_entity
+    end
+  end
+
+  def parse_lat_lng(str_coords)
+    coords = str_coords.split(',').map { |s| BigDecimal.new(s) }
+    raise "malformed coordinate" if coords.size != 2
+    Geokit::LatLng.new(*coords)
   end
 end

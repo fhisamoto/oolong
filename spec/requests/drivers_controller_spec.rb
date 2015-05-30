@@ -44,18 +44,34 @@ describe DriversController, :type => :request do
   end
 
   describe 'GET #inArea' do
-    let!(:in_area_driver) do
-      Driver.create! :latitude => -23.5949, :longitude => -46.6902, :driver_available => true
+    context 'Successful request' do
+      let!(:in_area_driver) do
+        Driver.create! :latitude => -23.5949, :longitude => -46.6902, :driver_available => true
+      end
+
+      let!(:unavailable_driver) do
+        Driver.create! :latitude => -23.5948, :longitude => -46.6901, :driver_available => false
+      end
+
+      let!(:outside_area_driver) do
+        Driver.create! :latitude => -23.7200, :longitude => -46.7000, :driver_available => true
+      end
+
+      before { get inArea_drivers_url :sw => "-23.7100,-46.7100", :ne => "-23.5500,-46.6500" }
+
+      it { expect(response).to be_success }
+      it { expect(response.body).to match(/\"driverId\":#{in_area_driver.id}/) }
+      it { expect(response.body).to_not match(/\"driverId\":#{outside_area_driver.id}/) }
+
+      it "does not return unavailable driver" do
+        expect(response.body).to_not match(/\"driverId\":#{unavailable_driver.id}/)
+      end
     end
 
-    let!(:outside_area_driver) do
-      Driver.create! :latitude => -23.7200, :longitude => -46.7000, :driver_available => true
+    context 'Malformed request' do
+      before { get inArea_drivers_url :sw => "-23.7100", :ne => "-23.5500,-46.6500" }
+
+      it { expect(response).to have_http_status(:unprocessable_entity) }
     end
-
-    before { get inArea_drivers_url :sw => "-23.7100,-46.7100", :ne => "-23.5500,-46.6500" }
-
-    it { expect(response).to be_success }
-    it { expect(response.body).to match(/\"driverId\":#{in_area_driver.id}/) }
-    it { expect(response.body).to_not match(/\"driverId\":#{outside_area_driver.id}/) }
   end
 end
