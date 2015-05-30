@@ -1,15 +1,16 @@
 require 'rails_helper'
 
 describe Driver, :type => :model do
-  describe '.in_bounds' do
-    let(:sw) { Geokit::LatLng.new(-23.7100, -46.7100) }
-    let(:ne) { Geokit::LatLng.new(-23.5500, -46.6500) }
+  describe '.are_available' do
+    let!(:available_driver) { Driver.create! :driver_available => true }
+    let!(:unavailable_driver) { Driver.create! :driver_available => false }
 
-    let!(:in_bound_driver) { Driver.create! :latitude => -23.5949, :longitude => -46.6902 }
-    let!(:out_bound_driver) { Driver.create! :latitude => -23.7200, :longitude => -46.7000 }
+    it "includes available driver" do
+      expect(Driver.are_available.all).to include(available_driver)
+    end
 
-    it "contains one in bound driver" do
-      expect(Driver.in_bounds([sw, ne]).all).to include(in_bound_driver)
+    it "does not includes unavailable driver" do
+      expect(Driver.are_available.all).to_not include(unavailable_driver)
     end
   end
 end
