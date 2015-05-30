@@ -4,5 +4,9 @@ Rails.application.routes.draw do
       post 'status', :action => 'update'
       get 'status', :action => 'show'
     end
+
+    collection do
+      get 'inArea', :action => 'in_area'
+    end
   end
 end
