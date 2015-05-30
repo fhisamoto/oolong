@@ -76,9 +76,10 @@ describe DriversController, :type => :request do
   end
 
   describe 'POST #drivers' do
-    before { post drivers_url :driver => { :name => "Gumercindo Silva" } }
+    before { post drivers_url :driver => { :name => "Gumercindo Silva", :carPlate => "car-0001" } }
 
     it { expect(response).to be_success }
     it { expect(Driver.first.name).to eql("Gumercindo Silva") }
+    it { expect(Driver.first.car_plate).to eql("car-0001") }
   end
 end

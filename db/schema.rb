@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150530163751) do
+ActiveRecord::Schema.define(version: 20150530165629) do
 
   create_table "drivers", force: :cascade do |t|
     t.decimal  "latitude"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20150530163751) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.string   "car_plate"
   end
 
 end

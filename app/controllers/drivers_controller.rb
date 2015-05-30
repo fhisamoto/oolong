@@ -18,7 +18,7 @@ class DriversController < ApplicationController
   # POST /drivers
   # POST /drivers.json
   def create
-    @driver = Driver.new(driver_params.permit(:name))
+    @driver = Driver.new(driver_params.permit(:name, :car_plate))
 
     if @driver.save
       render json: @driver, status: :created, location: @driver
@@ -58,6 +58,7 @@ class DriversController < ApplicationController
   def driver_params
     if params[:driver]
       params[:driver].merge!(:driver_available => params[:driver][:driverAvailable])
+      params[:driver].merge!(:car_plate => params[:driver][:carPlate])
     end
     params[:driver]
   end
