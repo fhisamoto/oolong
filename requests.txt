@@ -1,0 +1,8 @@
+- Create driver
+curl -v -d '{"driver": {"name": "Agenor Pinto"}}' -H 'Content-type: application/json' -H 'Accept: application/json' http://oolong-dev.elasticbeanstalk.com/drivers
+
+- Update driver posiiton
+curl -v -d '{"driver": {"latitude": -23.60810717, "longitude":-46.67500346, "driverAvailable":true}}' -H 'Content-type: application/json' -H 'Accept: application/json' http://oolong-dev.elasticbeanstalk.com/drivers/1/status
+
+- Get drivers in area
+curl -v -H 'Accept: application/json' http://oolong-dev.elasticbeanstalk.com/drivers/inArea?sw=-23.612474,-46.702746&ne=-23.589548,-46.673392
