@@ -1,11 +1,14 @@
 class DriversController < ApplicationController
-  before_action :set_driver, only: [:show, :update, :destroy]
+  before_action :set_driver, only: [:show, :update, :destroy, :status]
+
+  def status
+    render :json => @driver, :serializer => DriverSerializer, :status => :ok
+  end
 
   # GET /drivers
   # GET /drivers.json
   def index
     @drivers = Driver.all
-
     render json: @drivers
   end
 
@@ -43,17 +46,16 @@ class DriversController < ApplicationController
   # DELETE /drivers/1.json
   def destroy
     @driver.destroy
-
     head :no_content
   end
 
   private
 
-    def set_driver
-      @driver = Driver.find(params[:id])
-    end
+  def set_driver
+    @driver = Driver.find(params[:id])
+  end
 
-    def driver_params
-      params[:driver]
-    end
+  def driver_params
+    params[:driver]
+  end
 end
