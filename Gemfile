@@ -4,7 +4,7 @@ gem 'rails', '4.2.1'
 gem 'rails-api'
 gem 'geokit-rails'
 gem 'sqlite3'
-gem 'unicorn'
+gem 'puma'
 
 gem 'spring', :group => :development
 
