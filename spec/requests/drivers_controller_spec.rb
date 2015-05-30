@@ -74,4 +74,11 @@ describe DriversController, :type => :request do
       it { expect(response).to have_http_status(:unprocessable_entity) }
     end
   end
+
+  describe 'POST #drivers' do
+    before { post drivers_url :driver => { :name => "Gumercindo Silva" } }
+
+    it { expect(response).to be_success }
+    it { expect(Driver.first.name).to eql("Gumercindo Silva") }
+  end
 end

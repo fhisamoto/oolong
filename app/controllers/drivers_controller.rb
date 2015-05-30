@@ -18,7 +18,7 @@ class DriversController < ApplicationController
   # POST /drivers
   # POST /drivers.json
   def create
-    @driver = Driver.new(driver_params)
+    @driver = Driver.new(driver_params.permit(:name))
 
     if @driver.save
       render json: @driver, status: :created, location: @driver
