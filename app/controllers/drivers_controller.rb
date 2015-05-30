@@ -1,10 +1,6 @@
 class DriversController < ApplicationController
   before_action :set_driver, only: [:show, :update, :destroy, :status]
 
-  def status
-    render :json => @driver, :serializer => DriverSerializer, :status => :ok
-  end
-
   # GET /drivers
   # GET /drivers.json
   def index
@@ -15,7 +11,7 @@ class DriversController < ApplicationController
   # GET /drivers/1
   # GET /drivers/1.json
   def show
-    render json: @driver
+    render :json => @driver, :serializer => DriverSerializer
   end
 
   # POST /drivers
@@ -33,9 +29,7 @@ class DriversController < ApplicationController
   # PATCH/PUT /drivers/1
   # PATCH/PUT /drivers/1.json
   def update
-    @driver = Driver.find(params[:id])
-
-    if @driver.update(driver_params)
+    if @driver.update(driver_params.permit(:latitude, :longitude, :driver_available))
       head :no_content
     else
       render json: @driver.errors, status: :unprocessable_entity
@@ -56,6 +50,9 @@ class DriversController < ApplicationController
   end
 
   def driver_params
+    if params[:driver]
+      params[:driver].merge!(:driver_available => params[:driver][:driverAvailable])
+    end
     params[:driver]
   end
 end
