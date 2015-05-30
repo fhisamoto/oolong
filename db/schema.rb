@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150529021613) do
+ActiveRecord::Schema.define(version: 20150530163751) do
 
   create_table "drivers", force: :cascade do |t|
     t.decimal  "latitude"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20150529021613) do
     t.boolean  "driver_available"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
 end
