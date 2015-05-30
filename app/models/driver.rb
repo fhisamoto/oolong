@@ -1,5 +1,5 @@
 class Driver < ActiveRecord::Base
-  def is_available?
-    status == "available"
+  def available?
+    driver_available
   end
 end

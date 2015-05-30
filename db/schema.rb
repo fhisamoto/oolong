@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20150529021613) do
   create_table "drivers", force: :cascade do |t|
     t.decimal  "latitude"
     t.decimal  "longitude"
-    t.string   "status"
+    t.boolean  "driver_available"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -3,7 +3,7 @@ class CreateDrivers < ActiveRecord::Migration
     create_table :drivers do |t|
       t.decimal :latitude
       t.decimal :longitude
-      t.string :status
+      t.boolean :driver_available
       t.timestamps
     end
   end
